@@ -46,6 +46,7 @@ public class StudentManagementApplication {
   @PostMapping("/name")
   public void name(String name) {
     this.name = name;
+    System.out.println(name);
   }
 
   @PostMapping("/StudentMap")
