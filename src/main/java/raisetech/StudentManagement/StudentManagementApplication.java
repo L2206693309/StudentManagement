@@ -28,6 +28,9 @@ public class StudentManagementApplication {
 	@GetMapping("/StudentMap")
 	public String StudentMap(){return StudentMap.get(name);};
 
+	@GetMapping("/name")
+	public String name(){System.out.println(name); return this.name;};
+
 	@PostMapping("/studentInfo")
 	public void studentInfo(String name,String age) {
 		this.name = name;
