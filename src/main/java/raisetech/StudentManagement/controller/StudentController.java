@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Students;
 import raisetech.StudentManagement.data.StudentsCourses;
@@ -65,18 +65,15 @@ public class StudentController {
     return this.name;
   }
 
-
-  @PostMapping("/name")
-  public void name(String name) {
-    this.name = name;
+  @GetMapping("/newStudent")
+  public String newStudent(Model model) {
+    model.addAttribute("studentDetail", new StudentDetail());
+    return "registerStudent";
   }
 
-  @PostMapping("/StudentMap")
-  public void StudentMap(String name, int age) {
-    this.name = name;
-    this.age = age;
-    this.StudentMap.put(name, age);
-
-
+  @PostMapping("/registerStudent")
+  public String registerStudent(@ModelAttribute StudentDetail studentDetail) {
+    return "";
   }
+
 }
