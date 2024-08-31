@@ -11,7 +11,7 @@ public class Students {
   private Integer id;
   private String name;
   private String furigana;
-  private String nickName;
+  private String nickname;
   private String mailAddress;
   private String livingArea;
   private Integer age;

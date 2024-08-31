@@ -32,6 +32,6 @@ public interface StudentRepository {
   @Select("select max(id) from students")
   Integer searchStudentsMaxId();
 
-  @Insert("insert into students values(#{id}, #{name}, #{furigana}, #{nickName}, #{mailAddress}, #{livingArea}, #{age}, #{gender}, #{remark}, false)")
+  @Insert("insert into students values(#{id}, #{name}, #{furigana}, #{nickname}, #{mailAddress}, #{livingArea}, #{age}, #{gender}, #{remark}, false)")
   void insertStudents(Students students);
 }

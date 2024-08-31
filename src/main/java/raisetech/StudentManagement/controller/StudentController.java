@@ -77,7 +77,7 @@ public class StudentController {
     if(result.hasErrors()){
       System.out.println(studentDetail.getStudent().getName());
       System.out.println(studentDetail.getStudent().getFurigana());
-      System.out.println(studentDetail.getStudent().getNickName());
+      System.out.println(studentDetail.getStudent().getNickname());
       System.out.println(studentDetail.getStudent().getMailAddress());
       System.out.println(studentDetail.getStudent().getLivingArea());
       System.out.println(studentDetail.getStudent().getAge());
@@ -87,7 +87,7 @@ public class StudentController {
     }
     System.out.println(studentDetail.getStudent().getName());
     System.out.println(studentDetail.getStudent().getFurigana());
-    System.out.println(studentDetail.getStudent().getNickName());
+    System.out.println(studentDetail.getStudent().getNickname());
     System.out.println(studentDetail.getStudent().getMailAddress());
     System.out.println(studentDetail.getStudent().getLivingArea());
     System.out.println(studentDetail.getStudent().getAge());
