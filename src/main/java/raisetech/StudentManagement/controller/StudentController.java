@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,8 +73,31 @@ public class StudentController {
   }
 
   @PostMapping("/registerStudent")
-  public String registerStudent(@ModelAttribute StudentDetail studentDetail) {
-    return "";
+  public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
+    if(result.hasErrors()){
+      System.out.println(studentDetail.getStudent().getName());
+      System.out.println(studentDetail.getStudent().getFurigana());
+      System.out.println(studentDetail.getStudent().getNickName());
+      System.out.println(studentDetail.getStudent().getMailAddress());
+      System.out.println(studentDetail.getStudent().getLivingArea());
+      System.out.println(studentDetail.getStudent().getAge());
+      System.out.println(studentDetail.getStudent().getGender());
+      System.out.println(studentDetail.getStudent().getRemark());
+      return "registerStudent";
+    }
+    System.out.println(studentDetail.getStudent().getName());
+    System.out.println(studentDetail.getStudent().getFurigana());
+    System.out.println(studentDetail.getStudent().getNickName());
+    System.out.println(studentDetail.getStudent().getMailAddress());
+    System.out.println(studentDetail.getStudent().getLivingArea());
+    System.out.println(studentDetail.getStudent().getAge());
+    System.out.println(studentDetail.getStudent().getGender());
+    System.out.println(studentDetail.getStudent().getRemark());
+    studentDetail.getStudent().setId(service.studentsMaxId()+1);
+    if(service.newStudent(studentDetail) == "ERROR"){
+      return "registerStudent";
+    };
+    return "redirect:/students";
   }
 
 }

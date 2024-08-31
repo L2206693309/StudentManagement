@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import raisetech.StudentManagement.data.Students;
 import raisetech.StudentManagement.data.StudentsCourses;
+import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
 @Service
@@ -31,7 +32,13 @@ public class StudentService {
       }
     }
 
+
+
     return returnStudents;
+  }
+
+  public Integer studentsMaxId(){
+    return repository.searchStudentsMaxId();
   }
 
   public List<StudentsCourses> studentsCourses() {
@@ -49,4 +56,12 @@ public class StudentService {
     return returnStudentCourses;
 
   }
-}
+
+  public String newStudent(StudentDetail studentDetail) {
+    try{repository.insertStudents(studentDetail.getStudent());}
+    catch (RuntimeException e){
+      e.printStackTrace();
+      return "ERROR";
+    }
+    return "SUCCESS";
+  }}
