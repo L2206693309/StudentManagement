@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import raisetech.StudentManagement.data.Students;
 import raisetech.StudentManagement.data.StudentsCourses;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -57,6 +58,7 @@ public class StudentService {
 
   }
 
+  @Transactional
   public String newStudent(StudentDetail studentDetail) {
     try{repository.insertStudents(studentDetail.getStudent());}
     catch (RuntimeException e){
