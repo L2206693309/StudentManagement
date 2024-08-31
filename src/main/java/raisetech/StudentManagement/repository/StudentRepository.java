@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import raisetech.StudentManagement.data.Students;
 import raisetech.StudentManagement.data.StudentsCourses;
-import raisetech.StudentManagement.domain.StudentDetail;
 
 
 /**
@@ -33,5 +32,8 @@ public interface StudentRepository {
   Integer searchStudentsMaxId();
 
   @Insert("insert into students values(#{id}, #{name}, #{furigana}, #{nickname}, #{mailAddress}, #{livingArea}, #{age}, #{gender}, #{remark}, false)")
-  void insertStudents(Students students);
+  void registerStudent(Students students);
+
+  @Insert("insert into students_courses values((select max(id)+1 from students_courses), #{sId}, #{courseName}, #{startDate}, #{endDate})")
+  void registerStudentsCourses(StudentsCourses studentsCourses);
 }
