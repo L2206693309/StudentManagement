@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Students;
@@ -38,6 +39,13 @@ public class StudentController {
     List<StudentsCourses> studentsCourses = service.studentsCourses();
     model.addAttribute("studentList", converter.convertStudentDetails(students1, studentsCourses));
     return "studentList";
+  }
+
+  @GetMapping("/student/{id}")
+  public String updateStudent(@PathVariable Integer id, Model model) {
+    StudentDetail studentDetail = service.searchStudent(id);
+    model.addAttribute("studentDetail", studentDetail);
+    return "updateStudent";
   }
 
 
@@ -75,9 +83,13 @@ public class StudentController {
     return "registerStudent";
   }
 
+
+
+
+
   @PostMapping("/registerStudent")
   public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
-    if(result.hasErrors()){
+    if (result.hasErrors()) {
       System.out.println(studentDetail.getStudent().getName());
       System.out.println(studentDetail.getStudent().getFurigana());
       System.out.println(studentDetail.getStudent().getNickname());
@@ -96,10 +108,40 @@ public class StudentController {
     System.out.println(studentDetail.getStudent().getAge());
     System.out.println(studentDetail.getStudent().getGender());
     System.out.println(studentDetail.getStudent().getRemark());
-    studentDetail.getStudent().setId(service.studentsMaxId()+1);
-    if(service.newStudent(studentDetail) == "ERROR"){
+    studentDetail.getStudent().setId(service.studentsMaxId() + 1);
+    if (service.newStudent(studentDetail) == "ERROR") {
       return "registerStudent";
-    };
+    }
+    return "redirect:/students";
+  }
+
+  @PostMapping("/updateStudent")
+  public String updateStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
+    if (result.hasErrors()) {
+      System.out.println(studentDetail.getStudent().getId());
+      System.out.println(studentDetail.getStudent().getName());
+      System.out.println(studentDetail.getStudent().getFurigana());
+      System.out.println(studentDetail.getStudent().getNickname());
+      System.out.println(studentDetail.getStudent().getMailAddress());
+      System.out.println(studentDetail.getStudent().getLivingArea());
+      System.out.println(studentDetail.getStudent().getAge());
+      System.out.println(studentDetail.getStudent().getGender());
+      System.out.println(studentDetail.getStudent().getRemark());
+      return "updateStudent";
+
+    }
+    System.out.println(studentDetail.getStudent().getId());
+    System.out.println(studentDetail.getStudent().getName());
+    System.out.println(studentDetail.getStudent().getFurigana());
+    System.out.println(studentDetail.getStudent().getNickname());
+    System.out.println(studentDetail.getStudent().getMailAddress());
+    System.out.println(studentDetail.getStudent().getLivingArea());
+    System.out.println(studentDetail.getStudent().getAge());
+    System.out.println(studentDetail.getStudent().getGender());
+    System.out.println(studentDetail.getStudent().getRemark());
+    if (service.updateStudent(studentDetail) == "ERROR") {
+      return "updateStudent";
+    }
     return "redirect:/students";
   }
 

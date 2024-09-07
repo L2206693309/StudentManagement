@@ -1,7 +1,6 @@
 package raisetech.StudentManagement.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +34,26 @@ public class StudentService {
       }
     }
 
-
-
     return returnStudents;
   }
 
-  public Integer studentsMaxId(){
+  public Integer studentsMaxId() {
     return repository.searchStudentsMaxId();
+  }
+
+  public Integer studentCoursesMaxId() {
+    return repository.searchStudentsCoursesMaxId();
+  }
+
+  public Students studentData(Integer id){
+    return repository.searchStudent(id);
+  }
+
+  public StudentDetail searchStudent(Integer id){
+    StudentDetail studentDetail = new StudentDetail();
+    studentDetail.setStudent(repository.searchStudent(id));
+    studentDetail.setStudentsCourses(repository.searchStudentsCourse(id));
+    return studentDetail;
   }
 
   public List<StudentsCourses> studentsCourses() {
@@ -62,18 +74,37 @@ public class StudentService {
 
   @Transactional
   public String newStudent(StudentDetail studentDetail) {
-    try{
+    try {
       repository.registerStudent(studentDetail.getStudent());
-      for(StudentsCourses studentsCourses : studentDetail.getStudentsCourses()){
+      for (StudentsCourses studentsCourses : studentDetail.getStudentsCourses()) {
         studentsCourses.setSId(studentDetail.getStudent().getId());
         studentsCourses.setStartDate(LocalDate.now());
         studentsCourses.setEndDate(LocalDate.now().plusYears(1));
+        studentsCourses.setId(repository.searchStudentsCoursesMaxId()+1);
+        System.out.println(studentsCourses.getId());
+        System.out.println(studentsCourses.getStartDate());
+        System.out.println(studentsCourses.getEndDate());
         repository.registerStudentsCourses(studentsCourses);
       }
-    }
-    catch (RuntimeException e){
+    } catch (RuntimeException e) {
       e.printStackTrace();
       return "ERROR";
     }
     return "SUCCESS";
-  }}
+  }@Transactional
+  public String updateStudent(StudentDetail studentDetail) {
+    try {
+      repository.updateStudent(studentDetail.getStudent());
+      for (StudentsCourses studentsCourses : studentDetail.getStudentsCourses()) {
+        studentsCourses.setSId(studentDetail.getStudent().getId());
+        repository.updateStudentsCourses(studentsCourses);
+      }
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+      return "ERROR";
+    }
+    return "SUCCESS";
+  }
+
+
+}
