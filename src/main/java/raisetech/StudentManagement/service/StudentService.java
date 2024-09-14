@@ -22,7 +22,7 @@ public class StudentService {
   }
 
   public List<Students> students() {
-    return repository.searchStudents();
+    return repository.searchUndeletedStudents();
   }
 
   public List<Students> students30() {

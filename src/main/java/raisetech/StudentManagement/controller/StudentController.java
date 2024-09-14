@@ -127,6 +127,7 @@ public class StudentController {
       System.out.println(studentDetail.getStudent().getAge());
       System.out.println(studentDetail.getStudent().getGender());
       System.out.println(studentDetail.getStudent().getRemark());
+      System.out.println(studentDetail.getStudent().getIsDeleted());
       return "updateStudent";
 
     }
@@ -139,6 +140,7 @@ public class StudentController {
     System.out.println(studentDetail.getStudent().getAge());
     System.out.println(studentDetail.getStudent().getGender());
     System.out.println(studentDetail.getStudent().getRemark());
+    System.out.println(studentDetail.getStudent().getIsDeleted());
     if (service.updateStudent(studentDetail) == "ERROR") {
       return "updateStudent";
     }

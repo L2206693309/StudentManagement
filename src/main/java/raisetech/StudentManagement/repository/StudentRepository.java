@@ -26,6 +26,9 @@ public interface StudentRepository {
   @Select("SELECT * FROM students")
   List<Students> searchStudents();
 
+  @Select("select * from students where is_deleted = 0")
+  List<Students> searchUndeletedStudents();
+
   /**
    * 全権検索します。
    *
@@ -70,7 +73,7 @@ public interface StudentRepository {
   @Insert("insert into students_courses values(#{id}, #{sId}, #{courseName}, #{startDate}, #{endDate})")
   void registerStudentsCourses(StudentsCourses studentsCourses);
 
-  @Update("update students set name=#{name}, furigana=#{furigana}, nickname=#{nickname}, mail_address=#{mailAddress}, living_area=#{livingArea}, age=#{age}, gender=#{gender}, remark=#{remark} where id = #{id}")
+  @Update("update students set name=#{name}, furigana=#{furigana}, nickname=#{nickname}, mail_address=#{mailAddress}, living_area=#{livingArea}, age=#{age}, gender=#{gender}, remark=#{remark}, is_deleted=#{isDeleted} where id = #{id}")
   void updateStudent(Students students);
 
   @Update("update students_courses set course_name=#{courseName} where id=#{id}")
