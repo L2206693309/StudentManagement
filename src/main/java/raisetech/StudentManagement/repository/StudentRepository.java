@@ -26,6 +26,12 @@ public interface StudentRepository {
   @Select("SELECT * FROM students")
   List<Students> searchStudents();
 
+  /**
+   * 部分検索します。
+   *
+   * @return is_deletedが0のものを除外した検索した受講生情報の一覧
+   */
+
   @Select("select * from students where is_deleted = 0")
   List<Students> searchUndeletedStudents();
 
@@ -37,6 +43,12 @@ public interface StudentRepository {
 
   @Select("select * from students_courses")
   List<StudentsCourses> searchStudentsCourses();
+
+  /**
+   * 部分検索します。
+   *
+   * @return s_idに基づく検索した受講生コース情報の一覧
+   */
 
   @Select("select * from students_courses where s_id=#{sId}")
   List<StudentsCourses> searchStudentsCourse(Integer id);
@@ -61,11 +73,6 @@ public interface StudentRepository {
 
   @Select("SELECT * FROM students where id=#{id}")
   Students searchStudent(Integer id);
-
-  /**
-   *
-   *
-   */
 
   @Insert("insert into students values(#{id}, #{name}, #{furigana}, #{nickname}, #{mailAddress}, #{livingArea}, #{age}, #{gender}, #{remark}, false)")
   void registerStudent(Students students);
