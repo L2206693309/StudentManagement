@@ -10,17 +10,15 @@ import raisetech.StudentManagement.data.StudentsCourses;
 
 
 /**
- * 受講生情報を扱うリポジトリ。
- * <p>
- * 全権検索や単一条件での検索、コース情報の検索が行えるクラスです。
+ * 受講生テーブルと受講生コース情報テーブルと紐づくRepositoryです。
  */
 @Mapper
 public interface StudentRepository {
 
   /**
-   * 全権検索します。
+   * 受講生の全件検索を行います。
    *
-   * @return 全権検索した受講生情報の一覧
+   * @return 受講生一覧(全件)
    */
 
   @Select("SELECT * FROM students")
@@ -36,18 +34,19 @@ public interface StudentRepository {
   List<Students> searchUndeletedStudents();
 
   /**
-   * 全権検索します。
+   * 受講生のコース情報の全件検索を行います。
    *
-   * @return 全権検索した受講生コース情報の一覧
+   * @return 受講生のコース情報(全件)
    **/
 
   @Select("select * from students_courses")
   List<StudentsCourses> searchStudentsCourses();
 
   /**
-   * 部分検索します。
+   * 受講生IDに紐づく受講生コース情報を検索します。
    *
-   * @return s_idに基づく検索した受講生コース情報の一覧
+   * @param id 受講生ID
+   * @return 受講生IDに紐づく受講コース情報
    */
 
   @Select("select * from students_courses where s_id=#{sId}")
@@ -66,11 +65,11 @@ public interface StudentRepository {
   Integer searchStudentsCoursesMaxId();
 
   /**
-   * 引数の値に基づくレコードを検索します。
+   * 受講生の検索を行います。
    *
-   * @return 当該idに基づく受講生テーブルのレコード
+   * @param id 受講生ID
+   * @return 受講生
    */
-
   @Select("SELECT * FROM students where id=#{id}")
   Students searchStudent(Integer id);
 
