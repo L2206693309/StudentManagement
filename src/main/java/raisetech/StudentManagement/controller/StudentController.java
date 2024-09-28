@@ -83,18 +83,7 @@ public class StudentController {
 
 
   @PostMapping("/registerStudent")
-  public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result) {
-    if (result.hasErrors()) {
-      System.out.println(studentDetail.getStudent().getName());
-      System.out.println(studentDetail.getStudent().getFurigana());
-      System.out.println(studentDetail.getStudent().getNickname());
-      System.out.println(studentDetail.getStudent().getMailAddress());
-      System.out.println(studentDetail.getStudent().getLivingArea());
-      System.out.println(studentDetail.getStudent().getAge());
-      System.out.println(studentDetail.getStudent().getGender());
-      System.out.println(studentDetail.getStudent().getRemark());
-      return "registerStudent";
-    }
+  public ResponseEntity<String> registerStudent(@RequestBody StudentDetail studentDetail) {
     System.out.println(studentDetail.getStudent().getName());
     System.out.println(studentDetail.getStudent().getFurigana());
     System.out.println(studentDetail.getStudent().getNickname());
@@ -104,10 +93,8 @@ public class StudentController {
     System.out.println(studentDetail.getStudent().getGender());
     System.out.println(studentDetail.getStudent().getRemark());
     studentDetail.getStudent().setId(service.studentsMaxId() + 1);
-    if (service.newStudent(studentDetail) == "ERROR") {
-      return "registerStudent";
-    }
-    return "redirect:/students";
+    service.newStudent(studentDetail);
+    return ResponseEntity.ok("登録処理が成功しました。");
   }
 
   @PostMapping("/updateStudent")
