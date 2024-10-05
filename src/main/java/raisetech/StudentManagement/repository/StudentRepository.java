@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import raisetech.StudentManagement.data.Students;
-import raisetech.StudentManagement.data.StudentsCourses;
+import raisetech.StudentManagement.data.StudentCourses;
 
 
 /**
@@ -40,7 +40,7 @@ public interface StudentRepository {
    **/
 
   @Select("select * from students_courses")
-  List<StudentsCourses> searchStudentsCourses();
+  List<StudentCourses> searchStudentCourseList();
 
   /**
    * 受講生IDに紐づく受講生コース情報を検索します。
@@ -50,7 +50,7 @@ public interface StudentRepository {
    */
 
   @Select("select * from students_courses where s_id=#{sId}")
-  List<StudentsCourses> searchStudentsCourse(Integer id);
+  List<StudentCourses> searchStudentCourse(Integer id);
 
   /**
    * idの最大値を検索します。
@@ -73,15 +73,34 @@ public interface StudentRepository {
   @Select("SELECT * FROM students where id=#{id}")
   Students searchStudent(Integer id);
 
+  /**
+   * 受講生を新規登録します。 IDに関しては自動採番を行う。
+   *
+   * @param students 受講生
+   */
   @Insert("insert into students values(#{id}, #{name}, #{furigana}, #{nickname}, #{mailAddress}, #{livingArea}, #{age}, #{gender}, #{remark}, false)")
   void registerStudent(Students students);
 
+  /**
+   * 受講生コース情報を新規登録します。 IDに関しては自動採番を行う。
+   * @param studentCourse 受講生コース情報
+   */
   @Insert("insert into students_courses values(#{id}, #{sId}, #{courseName}, #{startDate}, #{endDate})")
-  void registerStudentsCourses(StudentsCourses studentsCourses);
+  void registerStudentCourse(StudentCourses studentCourse);
 
+  /**
+   * 受講生を更新します。
+   *
+   * @param students 受講生
+   */
   @Update("update students set name=#{name}, furigana=#{furigana}, nickname=#{nickname}, mail_address=#{mailAddress}, living_area=#{livingArea}, age=#{age}, gender=#{gender}, remark=#{remark}, is_deleted=#{isDeleted} where id = #{id}")
   void updateStudent(Students students);
 
+  /**
+   * 受講生コース情報のコース名を更新します。
+   *
+   * @param studentCourse 受講生コース情報
+   */
   @Update("update students_courses set course_name=#{courseName} where id=#{id}")
-  void updateStudentsCourses(StudentsCourses studentsCourses);
+  void updateStudentCourse(StudentCourses studentCourse);
 }
