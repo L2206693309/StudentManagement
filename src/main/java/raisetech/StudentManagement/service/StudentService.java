@@ -33,7 +33,7 @@ public class StudentService {
    * @return 受講生一覧
    */
   public List<StudentDetail> students() {
-    List<Students> studentList = repository.searchUndeletedStudents();
+    List<Students> studentList = repository.searchStudents();
     List<StudentCourses> studentsCourseList = repository.searchStudentCourseList();
     return converter.convertStudentDetails(studentList, studentsCourseList);
   }
