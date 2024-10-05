@@ -22,6 +22,9 @@ import raisetech.StudentManagement.data.StudentsCourses;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
+/**
+ * 受講生の検索や登録、更新など行うREST APIとして受け付けるControllerです。
+ */
 @RestController
 public class StudentController {
 
@@ -29,20 +32,35 @@ public class StudentController {
   private int age = 16;
   private Map<String, Integer> StudentMap = new HashMap<>();
   private StudentService service;
-  private StudentConverter converter;
 
   @Autowired
-  public StudentController(StudentService service, StudentConverter converter) {
+  public StudentController(StudentService service) {
     this.service = service;
-    this.converter = converter;
   }
 
+  /**
+   * 受講生一覧検索です。
+   * 全件検索を行うので、条件指定は行いません。
+   *
+   * @return 受講生一覧(全件)
+   */
   @GetMapping("/students")
   public List<StudentDetail> students() {
-    List<Students> students1 = service.students();
-    List<StudentsCourses> studentsCourses = service.studentsCourses();
-    return converter.convertStudentDetails(students1, studentsCourses);
+    return service.students();
   }
+
+  /**
+   * 受講生検索です。
+   * IDに紐づく任意の受講生を取得します。
+   *
+   * @param id 受講生ID
+   * @return 受講生
+   */
+  @GetMapping("/student/{id}")
+  public StudentDetail updateStudent(@PathVariable Integer id) {
+    return service.searchStudent(id);
+  }
+
 
   @GetMapping("/students30")
   public List<Students> students30() {
@@ -70,20 +88,9 @@ public class StudentController {
     return this.name;
   }
 
-  @GetMapping("/newStudent")
-  public String newStudent(Model model) {
-    StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudentsCourses(Arrays.asList(new StudentsCourses()));
-    model.addAttribute("studentDetail", studentDetail);
-    return "registerStudent";
-  }
-
-
-
-
 
   @PostMapping("/registerStudent")
-  public ResponseEntity<String> registerStudent(@RequestBody StudentDetail studentDetail) {
+  public ResponseEntity<StudentDetail> registerStudent(@RequestBody StudentDetail studentDetail) {
     System.out.println(studentDetail.getStudent().getName());
     System.out.println(studentDetail.getStudent().getFurigana());
     System.out.println(studentDetail.getStudent().getNickname());
@@ -93,8 +100,8 @@ public class StudentController {
     System.out.println(studentDetail.getStudent().getGender());
     System.out.println(studentDetail.getStudent().getRemark());
     studentDetail.getStudent().setId(service.studentsMaxId() + 1);
-    service.newStudent(studentDetail);
-    return ResponseEntity.ok("登録処理が成功しました。");
+    StudentDetail responseStudentDetail = service.newStudent(studentDetail);
+    return ResponseEntity.ok(responseStudentDetail);
   }
 
   @PostMapping("/updateStudent")
