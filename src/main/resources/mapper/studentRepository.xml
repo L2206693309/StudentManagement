@@ -15,11 +15,11 @@
     select * from students where is_deleted = 0
   </select>
 
-  <select id="searchStudentCourseList" resultType="raisetech.StudentManagement.data.Students">
+  <select id="searchStudentCourseList" resultType="raisetech.StudentManagement.data.StudentCourses">
     select * from students_courses
   </select>
 
-  <select id="searchStudentCourse" resultType="raisetech.StudentManagement.data.Students">
+  <select id="searchStudentCourse" resultType="raisetech.StudentManagement.data.StudentCourses">
     select * from students_courses where s_id=#{sId}
   </select>
 
@@ -27,7 +27,7 @@
     select max(id) from students
   </select>
 
-  <select id="searchStudentsCoursesMaxId" resultType="raisetech.StudentManagement.data.Students">
+  <select id="searchStudentsCoursesMaxId" resultType="raisetech.StudentManagement.data.StudentCourses">
     select max(id) from students_courses
   </select>
 

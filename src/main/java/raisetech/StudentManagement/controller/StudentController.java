@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.data.StudentCourses;
 import raisetech.StudentManagement.data.Students;
 import raisetech.StudentManagement.domain.StudentDetail;
+import raisetech.StudentManagement.exception.TestException;
 import raisetech.StudentManagement.service.StudentService;
 
 /**
@@ -40,9 +41,15 @@ public class StudentController {
    *
    * @return 受講生詳細一覧(全件)
    */
+
   @GetMapping("/students")
   public List<StudentDetail> students() {
-    return service.students();
+      return service.students();
+  }
+
+  @GetMapping("/studentsE")
+  public List<StudentDetail> studentsE() throws Exception {
+    throw new TestException("TestException発生");
   }
 
   /**
@@ -126,5 +133,4 @@ public class StudentController {
     service.updateStudent(studentDetail);
     return ResponseEntity.ok("更新処理が成功しました。");
   }
-
 }
