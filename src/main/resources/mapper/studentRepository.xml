@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="raisetech.StudentManagement.repository.StudentRepository">
+  <!-- 受講生の全件検索 -->
+  <select id="searchStudents" resultType="raisetech.StudentManagement.data.Students">
+    select * from students
+  </select>
+
+  <!-- 受講生の検索 -->
+  <select id="searchStudent" resultType="raisetech.StudentManagement.data.Students">
+    SELECT * FROM students where id=#{id}
+  </select>
+
+  <select id="searchUndeletedStudents" resultType="raisetech.StudentManagement.data.Students">
+    select * from students where is_deleted = 0
+  </select>
+
+  <select id="searchStudentCourseList" resultType="raisetech.StudentManagement.data.StudentCourses">
+    select * from students_courses
+  </select>
+
+  <select id="searchStudentCourse" resultType="raisetech.StudentManagement.data.StudentCourses">
+    select * from students_courses where s_id=#{sId}
+  </select>
+
+  <select id="searchStudentsMaxId" resultType="raisetech.StudentManagement.data.Students">
+    select max(id) from students
+  </select>
+
+  <select id="searchStudentsCoursesMaxId" resultType="raisetech.StudentManagement.data.StudentCourses">
+    select max(id) from students_courses
+  </select>
+
+  <insert id="registerStudent">
+    insert into students values(#{id}, #{name}, #{furigana}, #{nickname}, #{mailAddress}, #{livingArea}, #{age}, #{gender}, #{remark}, false)
+  </insert>
+
+  <insert id="registerStudentCourse">
+    insert into students_courses values(#{id}, #{sId}, #{courseName}, #{startDate}, #{endDate})
+  </insert>
+
+  <update id="updateStudent">
+    update students set name=#{name}, furigana=#{furigana}, nickname=#{nickname}, mail_address=#{mailAddress}, living_area=#{livingArea}, age=#{age}, gender=#{gender}, remark=#{remark}, is_deleted=#{isDeleted} where id = #{id}
+  </update>
+
+  <update id="updateStudentCourse">
+    update students_courses set course_name=#{courseName} where id=#{id}
+  </update>
+</mapper>
