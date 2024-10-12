@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.controller;
 
-import jakarta.validation.constraints.Min;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,12 +41,13 @@ public class StudentController {
    *
    * @return 受講生詳細一覧(全件)
    */
-
+  @Operation(summary = "一覧検索", description = "受講生の一覧を検索します。")
   @GetMapping("/students")
   public List<StudentDetail> students() {
-      return service.students();
+    return service.students();
   }
 
+  @Operation(summary = "TestException発生", description = "TestExceptionを発生させます。")
   @GetMapping("/studentsE")
   public List<StudentDetail> studentsE() throws Exception {
     throw new TestException("TestException発生");
@@ -58,36 +59,29 @@ public class StudentController {
    * @param id 受講生ID
    * @return 受講生
    */
+  @Operation(summary = "単一検索", description = "引数に指定されたidに紐づく受講生を検索します。")
   @GetMapping("/student/{id}")
-  public StudentDetail updateStudent(@PathVariable @Min(1) Integer id) {
+  public StudentDetail updateStudent(Integer id) {
     return service.searchStudent(id);
   }
 
 
+  @Operation(summary = "一覧検索(30<=age<40)", description = "ageが30以上かつ40未満の受講生の一覧を検索します。")
   @GetMapping("/students30")
   public List<Students> students30() {
     return service.students30();
   }
 
+  @Operation(summary = "一覧検索", description = "受講生コース情報の一覧を検索します。")
   @GetMapping("/studentsCourses")
   public List<StudentCourses> studentsCourses() {
     return service.studentsCourses();
   }
 
+  @Operation(summary = "一覧検索(courseName==Javaコース)", description = "courseNameがJavaコースの受講生コース情報の一覧を検索します。")
   @GetMapping("/studentsCoursesJava")
   public List<StudentCourses> studentsCoursesJava() {
     return service.studentsCoursesJava();
-  }
-
-  @GetMapping("/StudentMap")
-  public String StudentMap() {
-    return String.valueOf(StudentMap.get(name));
-  }
-
-  @GetMapping("/name")
-  public String name() {
-    System.out.println(name);
-    return this.name;
   }
 
   /**
@@ -96,9 +90,10 @@ public class StudentController {
    * @param studentDetail 受講生詳細
    * @return 実行結果
    */
-
+  @Operation(summary = "受講生登録", description = "受講生を登録します。")
   @PostMapping("/registerStudent")
-  public ResponseEntity<StudentDetail> registerStudent(@RequestBody StudentDetail studentDetail) {
+  public ResponseEntity<StudentDetail> registerStudent(
+      @RequestBody @Valid StudentDetail studentDetail) {
     System.out.println(studentDetail.getStudent().getName());
     System.out.println(studentDetail.getStudent().getFurigana());
     System.out.println(studentDetail.getStudent().getNickname());
@@ -118,6 +113,7 @@ public class StudentController {
    * @param studentDetail 受講生詳細
    * @return 実行結果
    */
+  @Operation(summary = "受講生更新", description = "受講生を更新します。")
   @PutMapping("/updateStudent")
   public ResponseEntity<String> updateStudent(@RequestBody StudentDetail studentDetail) {
     System.out.println(studentDetail.getStudent().getId());
