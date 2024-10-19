@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="raisetech.StudentManagement.repository.StudentRepository">
   <!-- 受講生の全件検索 -->
-  <select id="searchStudents" resultType="raisetech.StudentManagement.data.Students">
+  <select id="findAllStudents" resultType="raisetech.StudentManagement.data.Students">
     select * from students
   </select>
 
@@ -15,7 +16,8 @@
     select * from students where is_deleted = 0
   </select>
 
-  <select id="searchStudentCourseList" resultType="raisetech.StudentManagement.data.StudentCourses">
+  <select id="findAllStudentCourseList"
+    resultType="raisetech.StudentManagement.data.StudentCourses">
     select * from students_courses
   </select>
 
@@ -27,12 +29,14 @@
     select max(id) from students
   </select>
 
-  <select id="searchStudentsCoursesMaxId" resultType="raisetech.StudentManagement.data.StudentCourses">
+  <select id="searchStudentsCoursesMaxId"
+    resultType="raisetech.StudentManagement.data.StudentCourses">
     select max(id) from students_courses
   </select>
 
   <insert id="registerStudent">
-    insert into students values(#{id}, #{name}, #{furigana}, #{nickname}, #{mailAddress}, #{livingArea}, #{age}, #{gender}, #{remark}, false)
+    insert into students values(#{id}, #{name}, #{furigana}, #{nickname}, #{mailAddress},
+    #{livingArea}, #{age}, #{gender}, #{remark}, false)
   </insert>
 
   <insert id="registerStudentCourse">
@@ -40,7 +44,9 @@
   </insert>
 
   <update id="updateStudent">
-    update students set name=#{name}, furigana=#{furigana}, nickname=#{nickname}, mail_address=#{mailAddress}, living_area=#{livingArea}, age=#{age}, gender=#{gender}, remark=#{remark}, is_deleted=#{isDeleted} where id = #{id}
+    update students set name=#{name}, furigana=#{furigana}, nickname=#{nickname},
+    mail_address=#{mailAddress}, living_area=#{livingArea}, age=#{age}, gender=#{gender},
+    remark=#{remark}, is_deleted=#{isDeleted} where id = #{id}
   </update>
 
   <update id="updateStudentCourse">

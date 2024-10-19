@@ -18,7 +18,7 @@ public interface StudentRepository {
    * @return 受講生一覧(全件)
    */
 
-  List<Students> searchStudents();
+  List<Students> findAllStudents();
 
   /**
    * 部分検索します。
@@ -34,7 +34,7 @@ public interface StudentRepository {
    * @return 受講生のコース情報(全件)
    **/
 
-  List<StudentCourses> searchStudentCourseList();
+  List<StudentCourses> findAllStudentCourseList();
 
   /**
    * 受講生IDに紐づく受講生コース情報を検索します。
@@ -72,6 +72,7 @@ public interface StudentRepository {
 
   /**
    * 受講生コース情報を新規登録します。 IDに関しては自動採番を行う。
+   *
    * @param studentCourse 受講生コース情報
    */
   void registerStudentCourse(StudentCourses studentCourse);

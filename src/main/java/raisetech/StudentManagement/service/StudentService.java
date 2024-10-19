@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.service;
 
+import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import raisetech.StudentManagement.repository.StudentRepository;
  * 受講生情報を取り扱うサービスです。 受講生の検索や登録・更新を行います。
  */
 @Service
+@Valid
 public class StudentService {
 
   private StudentRepository repository;
@@ -33,13 +35,13 @@ public class StudentService {
    * @return 受講生一覧
    */
   public List<StudentDetail> students() {
-    List<Students> studentList = repository.searchStudents();
-    List<StudentCourses> studentsCourseList = repository.searchStudentCourseList();
+    List<Students> studentList = repository.findAllStudents();
+    List<StudentCourses> studentsCourseList = repository.findAllStudentCourseList();
     return converter.convertStudentDetails(studentList, studentsCourseList);
   }
 
   public List<Students> students30() {
-    List<Students> students = repository.searchStudents();
+    List<Students> students = repository.findAllStudents();
     List<Students> returnStudents = new ArrayList<Students>();
     for (Students s : students) {
       if (s.getAge() >= 30 && s.getAge() < 40) {
@@ -70,18 +72,18 @@ public class StudentService {
    */
   public StudentDetail searchStudent(Integer id) {
     Students students = repository.searchStudent(id);
-    List<StudentCourses> studentCours = repository.searchStudentCourse(students.getId());
-    return new StudentDetail(students, studentCours);
+    List<StudentCourses> studentCourse = repository.searchStudentCourse(students.getId());
+    return new StudentDetail(students, studentCourse);
   }
 
   public List<StudentCourses> studentsCourses() {
-    return repository.searchStudentCourseList();
+    return repository.findAllStudentCourseList();
   }
 
   public List<StudentCourses> studentsCoursesJava() {
-    List<StudentCourses> studentCours = repository.searchStudentCourseList();
+    List<StudentCourses> studentCourse = repository.findAllStudentCourseList();
     List<StudentCourses> returnStudentCourses = new ArrayList<>();
-    for (StudentCourses sc : studentCours) {
+    for (StudentCourses sc : studentCourse) {
       if (sc.getCourseName().equals("Javaコース")) {
         returnStudentCourses.add(sc);
       }
