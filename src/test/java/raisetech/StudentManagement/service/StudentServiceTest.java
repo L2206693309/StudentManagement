@@ -57,7 +57,7 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生の単一検索() {
+  void 受講生の単一検索_リポジトリの処理が適切に呼び出せていること() {
     Students student = new Students();
     student.setId(1);
     when(repository.searchStudent(student.getId())).thenReturn(student);
@@ -68,7 +68,7 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生登録() {
+  void 受講生登録_リポジトリに適切に情報を渡せていること() {
     Students student = new Students();
     StudentDetail studentDetail = new StudentDetail();
     studentDetail.setStudent(student);
@@ -79,7 +79,7 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生更新() {
+  void 受講生更新_リポジトリに適切に情報を渡せていること() {
     Students student = new Students();
     StudentDetail studentDetail = new StudentDetail();
     studentDetail.setStudent(student);
@@ -90,7 +90,7 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講コース情報_開始日時と終了日時() throws Exception {
+  void 受講コース情報_開始日時と終了日時が適切に設定されていること() throws Exception {
     Students student = new Students();
     Integer studentId = 1;
     student.setId(studentId);
