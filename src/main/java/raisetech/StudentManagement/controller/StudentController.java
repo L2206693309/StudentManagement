@@ -61,7 +61,7 @@ public class StudentController {
    */
   @Operation(summary = "単一検索", description = "引数に指定されたidに紐づく受講生を検索します。")
   @GetMapping("/student/{id}")
-  public StudentDetail student(Integer id) {
+  public StudentDetail updateStudent(Integer id) {
     return service.searchStudent(id);
   }
 
@@ -115,7 +115,7 @@ public class StudentController {
    */
   @Operation(summary = "受講生更新", description = "受講生を更新します。")
   @PutMapping("/updateStudent")
-  public ResponseEntity<String> student(@RequestBody StudentDetail studentDetail) {
+  public ResponseEntity<String> updateStudent(@RequestBody StudentDetail studentDetail) {
     System.out.println(studentDetail.getStudent().getId());
     System.out.println(studentDetail.getStudent().getName());
     System.out.println(studentDetail.getStudent().getFurigana());

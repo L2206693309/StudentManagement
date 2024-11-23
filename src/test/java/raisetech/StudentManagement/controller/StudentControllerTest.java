@@ -1,12 +1,8 @@
 package raisetech.StudentManagement.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import jakarta.validation.ConstraintViolation;
@@ -15,15 +11,13 @@ import jakarta.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import raisetech.StudentManagement.data.StudentCourses;
 import raisetech.StudentManagement.data.Students;
@@ -63,50 +57,54 @@ class StudentControllerTest {
   }
 
   @Test
-  void 受講生登録ができること() throws Exception{
-    Students student = new Students();
-
-    student.setName("角田 憲哉");
-    student.setFurigana("Kakuta Kazuya");
-    student.setNickname("Kazuya");
-    student.setMailAddress("l2206693309as@gmail.com");
-    student.setLivingArea("日本-神奈川県");
-    student.setAge(16);
-    student.setGender("man");
-    student.setRemark("備考");
-
-    List<StudentCourses> studentCourses = new ArrayList<>();
-    studentCourses.get(0).setCourseName("example7");
-
-    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent"))
+  void 受講生登録が正常に実行できること() throws Exception{
+    mockMvc.perform(MockMvcRequestBuilders.post("/registerStudent").contentType(MediaType.APPLICATION_JSON).content(
+            """
+                {
+                  "student" : {
+                    "name" : "testName",
+                    "furigana" : "testFurigana",
+                    "nickname" : "testNickname",
+                    "mailAddress" : "testMailAddress",
+                    "age" : 99822,
+                    "gender" : "testGender",
+                    "livingArea" : "testLivingArea",
+                    "remark" : "testRemark"
+                  },
+                  "studentCourseList" : [
+                    {
+                      "courseName" : "testCourseName"
+                    }
+                  ]
+                }
+                """
+        ))
         .andExpect(status().isOk());
   }
 
   @Test
-  void 受講生更新ができること() throws Exception{
-    Students student = new Students();
-
-    student.setId(10);
-    student.setName("角田 憲哉");
-    student.setFurigana("Kakuta Kazuya");
-    student.setNickname("Kazuya");
-    student.setMailAddress("l2206693309as@gmail.com");
-    student.setLivingArea("日本-神奈川県");
-    student.setAge(16);
-    student.setGender("man");
-    student.setRemark("備考");
-    student.setIsDeleted(false);
-
-    StudentCourses studentCourse = new StudentCourses();
-    studentCourse.setCourseName("hogehoge");
-    List<StudentCourses> studentCourses = new ArrayList<>();
-    studentCourses.add(studentCourse);
-
-    StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudent(student);
-    studentDetail.setStudentCourseList(studentCourses);
-
-    mockMvc.perform(MockMvcRequestBuilders.put("/updateStudent"))
+  void 受講生更新が正常に実行できること() throws Exception{
+    mockMvc.perform(MockMvcRequestBuilders.put("/updateStudent").contentType(MediaType.APPLICATION_JSON).content(
+            """
+                {
+                    "student" : {
+                        "id" : 99822,
+                        "name" : "testName",
+                        "furigana" : "testFurigana",
+                        "nickname" : "testNickname",
+                        "mailAddress" : "testMailAddress",
+                        "livingArea" : "testLivingArea",
+                        "age" : 2887,
+                        "gender" : "testGender",
+                        "remark" : "testRemark",
+                        "isDeleted" : 0
+                    },
+                    "studentCourseList" : [
+                
+                    ]
+                }
+                """
+        ))
         .andExpect(status().isOk());
   }
 
@@ -127,7 +125,7 @@ class StudentControllerTest {
 
     Set<ConstraintViolation<Students>> violations = validator.validate(student);
 
-    assertThat(violations.size()).isEqualTo(7);
+    Assertions.assertThat(violations.size()).isEqualTo(7);
   }
 
   @Test
