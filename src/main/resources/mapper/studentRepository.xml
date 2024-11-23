@@ -13,7 +13,7 @@
   </select>
 
   <select id="searchUndeletedStudents" resultType="raisetech.StudentManagement.data.Students">
-    select * from students where is_deleted = 0
+    select * from students where is_deleted = false
   </select>
 
   <select id="findAllStudentCourseList"
