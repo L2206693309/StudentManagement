@@ -9,11 +9,11 @@
 
   <!-- 受講生の検索 -->
   <select id="searchStudent" resultType="raisetech.StudentManagement.data.Students">
-    SELECT * FROM students where id=#{id}
+    SELECT * FROM students where id = #{id}
   </select>
 
   <select id="searchUndeletedStudents" resultType="raisetech.StudentManagement.data.Students">
-    select * from students where is_deleted = 0
+    select * from students where is_deleted = false
   </select>
 
   <select id="findAllStudentCourseList"
@@ -22,15 +22,15 @@
   </select>
 
   <select id="searchStudentCourse" resultType="raisetech.StudentManagement.data.StudentCourses">
-    select * from students_courses where s_id=#{sId}
+    select * from students_courses where s_id = #{sId}
   </select>
 
-  <select id="searchStudentsMaxId" resultType="raisetech.StudentManagement.data.Students">
+  <select id="searchStudentsMaxId" resultType="Integer">
     select max(id) from students
   </select>
 
   <select id="searchStudentsCoursesMaxId"
-    resultType="raisetech.StudentManagement.data.StudentCourses">
+    resultType="Integer">
     select max(id) from students_courses
   </select>
 
