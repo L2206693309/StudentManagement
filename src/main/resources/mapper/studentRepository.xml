@@ -34,13 +34,17 @@
     select max(id) from students_courses
   </select>
 
+  <select id="searchStatusOfStudentsCourses" resultType="String">
+    select status from status_of_students_courses where id = #{id}
+  </select>
+
   <insert id="registerStudent">
     insert into students values(#{id}, #{name}, #{furigana}, #{nickname}, #{mailAddress},
     #{livingArea}, #{age}, #{gender}, #{remark}, false)
   </insert>
 
   <insert id="registerStudentCourse">
-    insert into students_courses values(#{id}, #{sId}, #{courseName}, #{startDate}, #{endDate})
+    insert into students_courses values(#{id}, #{sId}, #{courseName}, #{startDate}, #{endDate}, #{statusId})
   </insert>
 
   <update id="updateStudent">
@@ -50,6 +54,6 @@
   </update>
 
   <update id="updateStudentCourse">
-    update students_courses set course_name=#{courseName} where id=#{id}
+    update students_courses set course_name=#{courseName}, status_id=#{statusId} where id=#{id}
   </update>
 </mapper>

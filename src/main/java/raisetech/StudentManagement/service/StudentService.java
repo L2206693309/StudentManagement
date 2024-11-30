@@ -93,6 +93,80 @@ public class StudentService {
   }
 
   /**
+   * 受講生詳細検索です。検索情報に該当する受講生詳細を取得します。
+   *
+   * @param targetStudents 検索条件
+   * @return 受講生詳細一覧
+   */
+  public List<StudentDetail> searchStudents(Students targetStudents, Integer isDeleted) {
+    List<Students> students = repository.findAllStudents();
+    List<StudentCourses> studentCourses = repository.findAllStudentCourseList();
+    List<Students> returnStudents = new ArrayList<>();
+
+    for (StudentCourses sc : studentCourses) {
+      String status = repository.searchStatusOfStudentsCourses(sc.getStatusId());
+      sc.setStatus(status);
+    }
+
+    for (Students s : students) {
+      Integer hasTrue = 0;
+      hasTrue = getClearContents(targetStudents, isDeleted, s, hasTrue);
+
+      if (hasTrue >= 10) {
+        returnStudents.add(s);
+      }
+    }
+
+    return converter.convertStudentDetails(returnStudents, studentCourses);
+  }
+
+  private Integer getClearContents(Students targetStudents, Integer isDeleted, Students s,
+      Integer hasTrue) {
+    if (targetStudents.getId() == -1 || (s.getId().equals(targetStudents.getId()))) {
+      hasTrue++;
+      System.out.println("id");
+    }
+    if (s.getName().contains(targetStudents.getName())) {
+      hasTrue++;
+      System.out.println("name");
+    }
+    if (s.getFurigana().contains(targetStudents.getFurigana())) {
+      hasTrue++;
+      System.out.println("furigana");
+    }
+    if (s.getNickname().contains(targetStudents.getNickname())) {
+      hasTrue++;
+      System.out.println("nickname");
+    }
+    if (s.getMailAddress().contains(targetStudents.getMailAddress())) {
+      hasTrue++;
+      System.out.println("mailAddress");
+    }
+    if (s.getLivingArea().contains(targetStudents.getLivingArea())) {
+      hasTrue++;
+      System.out.println("livingArea");
+    }
+    if (targetStudents.getAge() == -1 || s.getAge().equals(targetStudents.getAge())) {
+      hasTrue++;
+      System.out.println("age");
+    }
+    if (targetStudents.getGender().equals("空文字ですよ！") || s.getGender()
+        .equals(targetStudents.getGender())) {
+      hasTrue++;
+      System.out.println("gender");
+    }
+    if (s.getRemark().contains(targetStudents.getRemark())) {
+      hasTrue++;
+      System.out.println("remark");
+    }
+    if (isDeleted == 2 || s.getIsDeleted().equals(targetStudents.getIsDeleted())) {
+      hasTrue++;
+      System.out.println("true");
+    }
+    return hasTrue;
+  }
+
+  /**
    * 受講生詳細の登録を行います。 受講生と受講生コース情報を個別に登録し、受講生コース情報には受講生情報を紐づける値とコース開始日、コース終了日を設定します。
    *
    * @param studentDetail 受講生詳細
@@ -102,6 +176,12 @@ public class StudentService {
   public StudentDetail newStudent(StudentDetail studentDetail) {
     try {
       Students student = studentDetail.getStudent();
+      if (student.getRemark() == null) {
+        student.setRemark("");
+      }
+      if (student.getNickname() == null) {
+        student.setNickname("");
+      }
       repository.registerStudent(student);
       for (StudentCourses studentsCourses : studentDetail.getStudentCourseList()) {
         initStudentsCourse(studentsCourses, student);
@@ -139,6 +219,12 @@ public class StudentService {
   @Transactional
   public String updateStudent(StudentDetail studentDetail) {
     try {
+      if (studentDetail.getStudent().getRemark() == null) {
+        studentDetail.getStudent().setRemark("");
+      }
+      if (studentDetail.getStudent().getNickname() == null) {
+        studentDetail.getStudent().setNickname("");
+      }
       repository.updateStudent(studentDetail.getStudent());
       studentDetail.getStudentCourseList().forEach(studentCourses -> {
         studentCourses.setSId(studentDetail.getStudent().getId());

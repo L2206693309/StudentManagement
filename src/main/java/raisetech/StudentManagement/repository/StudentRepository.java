@@ -64,6 +64,13 @@ public interface StudentRepository {
   Students searchStudent(Integer id);
 
   /**
+   * 受講状況のステータスの取得をします。
+   *
+   * @param id 対象となる受講生コース情報のstatusId
+   */
+  String searchStatusOfStudentsCourses(Integer id);
+
+  /**
    * 受講生を新規登録します。 IDに関しては自動採番を行う。
    *
    * @param students 受講生

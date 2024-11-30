@@ -20,5 +20,13 @@ CREATE TABLE IF NOT EXISTS students_courses
   course_name VARCHAR(50) NOT NULL,
   start_date DATE NOT NULL,
   end_date DATE NOT NULL,
+  status_id INT NOT NULL,
   PRIMARY KEY(id)
+);
+
+CREATE TABLE IF NOT EXISTS status_of_students_courses
+(
+  id INT NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id)
 );

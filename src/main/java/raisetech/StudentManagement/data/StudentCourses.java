@@ -25,4 +25,8 @@ public class StudentCourses {
   private LocalDate startDate;
 
   private LocalDate endDate;
+
+  private Integer statusId;
+
+  private String status;
 }
