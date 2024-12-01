@@ -98,72 +98,28 @@ public class StudentService {
    * @param targetStudents 検索条件
    * @return 受講生詳細一覧
    */
-  public List<StudentDetail> searchStudents(Students targetStudents, Integer isDeleted) {
-    List<Students> students = repository.findAllStudents();
-    List<StudentCourses> studentCourses = repository.findAllStudentCourseList();
-    List<Students> returnStudents = new ArrayList<>();
+  public List<StudentDetail> searchStudents(Students targetStudents) {
+    try {
+      List<Students> students = repository.searchTargetStudents(targetStudents);
+      ArrayList<Integer> sId = new ArrayList<>();
 
-    for (StudentCourses sc : studentCourses) {
-      String status = repository.searchStatusOfStudentsCourses(sc.getStatusId());
-      sc.setStatus(status);
-    }
-
-    for (Students s : students) {
-      Integer hasTrue = 0;
-      hasTrue = getClearContents(targetStudents, isDeleted, s, hasTrue);
-
-      if (hasTrue >= 10) {
-        returnStudents.add(s);
+      //students内の各レコードのidを取得
+      for (Students s : students) {
+        sId.add(s.getId());
       }
-    }
 
-    return converter.convertStudentDetails(returnStudents, studentCourses);
-  }
+      List<StudentCourses> studentCourses = repository.searchStudentCourse(sId);
 
-  private Integer getClearContents(Students targetStudents, Integer isDeleted, Students s,
-      Integer hasTrue) {
-    if (targetStudents.getId() == -1 || (s.getId().equals(targetStudents.getId()))) {
-      hasTrue++;
-      System.out.println("id");
+      //studentsCourses内の各レコードのstatusを設定
+      for (StudentCourses sc : studentCourses){
+        sc.setStatus(repository.searchStatusOfStudentsCourses(sc.getStatusId()));
+      }
+
+      return converter.convertStudentDetails(students, studentCourses);
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+      return null;
     }
-    if (s.getName().contains(targetStudents.getName())) {
-      hasTrue++;
-      System.out.println("name");
-    }
-    if (s.getFurigana().contains(targetStudents.getFurigana())) {
-      hasTrue++;
-      System.out.println("furigana");
-    }
-    if (s.getNickname().contains(targetStudents.getNickname())) {
-      hasTrue++;
-      System.out.println("nickname");
-    }
-    if (s.getMailAddress().contains(targetStudents.getMailAddress())) {
-      hasTrue++;
-      System.out.println("mailAddress");
-    }
-    if (s.getLivingArea().contains(targetStudents.getLivingArea())) {
-      hasTrue++;
-      System.out.println("livingArea");
-    }
-    if (targetStudents.getAge() == -1 || s.getAge().equals(targetStudents.getAge())) {
-      hasTrue++;
-      System.out.println("age");
-    }
-    if (targetStudents.getGender().equals("空文字ですよ！") || s.getGender()
-        .equals(targetStudents.getGender())) {
-      hasTrue++;
-      System.out.println("gender");
-    }
-    if (s.getRemark().contains(targetStudents.getRemark())) {
-      hasTrue++;
-      System.out.println("remark");
-    }
-    if (isDeleted == 2 || s.getIsDeleted().equals(targetStudents.getIsDeleted())) {
-      hasTrue++;
-      System.out.println("true");
-    }
-    return hasTrue;
   }
 
   /**

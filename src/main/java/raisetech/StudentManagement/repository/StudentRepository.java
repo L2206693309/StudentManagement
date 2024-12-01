@@ -1,5 +1,8 @@
 package raisetech.StudentManagement.repository;
 
+import io.swagger.v3.oas.models.security.SecurityScheme.In;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import raisetech.StudentManagement.data.StudentCourses;
@@ -45,6 +48,8 @@ public interface StudentRepository {
 
   List<StudentCourses> searchStudentCourse(Integer id);
 
+  List<StudentCourses> searchStudentCourse(ArrayList<Integer> id);
+
   /**
    * idの最大値を検索します。
    *
@@ -69,6 +74,14 @@ public interface StudentRepository {
    * @param id 対象となる受講生コース情報のstatusId
    */
   String searchStatusOfStudentsCourses(Integer id);
+
+  /**
+   * 引数に指定された値を満たすレコードを取得します。
+   *
+   * @param targetStudents 検索条件
+   * @return 検索条件を満たす受講生
+   */
+  List<Students> searchTargetStudents(Students targetStudents);
 
   /**
    * 受講生を新規登録します。 IDに関しては自動採番を行う。

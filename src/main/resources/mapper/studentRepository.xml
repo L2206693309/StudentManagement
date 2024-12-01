@@ -22,7 +22,10 @@
   </select>
 
   <select id="searchStudentCourse" resultType="raisetech.StudentManagement.data.StudentCourses">
-    select * from students_courses where s_id = #{sId}
+    select * from students_courses where s_id in
+    <foreach item="sId" collection="list" open="(" separator="," close=")">
+      #{sId}
+    </foreach>
   </select>
 
   <select id="searchStudentsMaxId" resultType="Integer">
@@ -36,6 +39,10 @@
 
   <select id="searchStatusOfStudentsCourses" resultType="String">
     select status from status_of_students_courses where id = #{id}
+  </select>
+
+  <select id="searchTargetStudents" resultType="raisetech.StudentManagement.data.Students">
+    select * from students where id like concat ('%', #{id}, '%') and name like concat ('%', #{name}, '%') and furigana like concat ('%', #{furigana}, '%') and nickname like concat ('%', #{nickname}, '%') and mail_address like concat ('%', #{mailAddress}, '%') and living_area like concat ('%', #{livingArea}, '%') and age like concat ('%', #{age}, '%') and gender like concat ('%', #{gender}, '%') and remark like concat ('%', #{remark}, '%') and is_deleted like concat ('%', #{isDeleted}, '%')
   </select>
 
   <insert id="registerStudent">

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,6 +66,19 @@ class StudentServiceTest {
     StudentDetail actual = sut.searchStudent(1);
 
     verify(repository, times(1)).searchStudent(student.getId());
+  }
+
+  @Test
+  void 受講生の条件付き一覧検索_リポジトリの処理が適切に呼び出せていること(){
+    Students student = new Students();
+    student.setName("name3");
+    List<Students> returnStudents = new ArrayList<>();
+    returnStudents.add(student);
+    when(repository.searchTargetStudents(student)).thenReturn(returnStudents);
+
+    List<StudentDetail> actual = sut.searchStudents(student);
+
+    verify(repository, times(1)).searchTargetStudents(student);
   }
 
   @Test

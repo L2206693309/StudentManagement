@@ -84,11 +84,14 @@ public class StudentController {
   @GetMapping("/searchStudents")
   public List<StudentDetail> searchStudents(Integer id,String name,String furigana,String nickname,String mailAddress,String livingArea,Integer age,String gender,String remark,Integer isDeleted){
     Students targetStudents = new Students();
+
+    //空文字対策
     if (id == null){id = -1;}
     if (age == null){age = -1;}
     if (gender.equals("")){gender = "空文字ですよ！";}
     if (isDeleted == null){isDeleted = 2;}
 
+    //targetStudentsに検索する値を代入
     targetStudents.setId(id);
     targetStudents.setName(name);
     targetStudents.setFurigana(furigana);
@@ -98,13 +101,15 @@ public class StudentController {
     targetStudents.setAge(age);
     targetStudents.setGender(gender);
     targetStudents.setRemark(remark);
-
     if (isDeleted == 1){
       targetStudents.setIsDeleted(true);
-    } else
-      targetStudents.setIsDeleted(isDeleted != 0);
+    } else if (isDeleted == 0){
+      targetStudents.setIsDeleted(false);
+    } else {
+      targetStudents.setIsDeleted(null);
+    }
 
-    return service.searchStudents(targetStudents, isDeleted);
+    return service.searchStudents(targetStudents);
   }
 
   /**
