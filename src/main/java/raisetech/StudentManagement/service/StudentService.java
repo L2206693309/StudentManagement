@@ -93,6 +93,36 @@ public class StudentService {
   }
 
   /**
+   * 受講生詳細検索です。検索情報に該当する受講生詳細を取得します。
+   *
+   * @param targetStudents 検索条件
+   * @return 受講生詳細一覧
+   */
+  public List<StudentDetail> searchStudents(Students targetStudents) {
+    try {
+      List<Students> students = repository.searchTargetStudents(targetStudents);
+      ArrayList<Integer> sId = new ArrayList<>();
+
+      //students内の各レコードのidを取得
+      for (Students s : students) {
+        sId.add(s.getId());
+      }
+
+      List<StudentCourses> studentCourses = repository.searchStudentCourse(sId);
+
+      //studentsCourses内の各レコードのstatusを設定
+      for (StudentCourses sc : studentCourses){
+        sc.setStatus(repository.searchStatusOfStudentsCourses(sc.getStatusId()));
+      }
+
+      return converter.convertStudentDetails(students, studentCourses);
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  /**
    * 受講生詳細の登録を行います。 受講生と受講生コース情報を個別に登録し、受講生コース情報には受講生情報を紐づける値とコース開始日、コース終了日を設定します。
    *
    * @param studentDetail 受講生詳細
@@ -102,6 +132,12 @@ public class StudentService {
   public StudentDetail newStudent(StudentDetail studentDetail) {
     try {
       Students student = studentDetail.getStudent();
+      if (student.getRemark() == null) {
+        student.setRemark("");
+      }
+      if (student.getNickname() == null) {
+        student.setNickname("");
+      }
       repository.registerStudent(student);
       for (StudentCourses studentsCourses : studentDetail.getStudentCourseList()) {
         initStudentsCourse(studentsCourses, student);
@@ -139,6 +175,12 @@ public class StudentService {
   @Transactional
   public String updateStudent(StudentDetail studentDetail) {
     try {
+      if (studentDetail.getStudent().getRemark() == null) {
+        studentDetail.getStudent().setRemark("");
+      }
+      if (studentDetail.getStudent().getNickname() == null) {
+        studentDetail.getStudent().setNickname("");
+      }
       repository.updateStudent(studentDetail.getStudent());
       studentDetail.getStudentCourseList().forEach(studentCourses -> {
         studentCourses.setSId(studentDetail.getStudent().getId());

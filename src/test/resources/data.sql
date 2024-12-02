@@ -6,8 +6,14 @@ INSERT INTO students VALUES
 (5, 'name5', 'furigana5', 'nickname5', 'mailAddress5', 'livingArea5', 5, 'gender5', 'remark5', 1);
 
 INSERT INTO students_courses VALUES
-(1, 1, 'courseName1', '2024-01-01', '2025-01-01'),
-(2, 2, 'courseName2', '2024-01-02', '2025-01-02'),
-(3, 3, 'courseName3', '2024-01-03', '2025-01-03'),
-(4, 4, 'courseName4', '2024-01-04', '2025-01-04'),
-(5, 5, 'courseName5', '2024-01-05', '2025-01-05');
+(1, 1, 'courseName1', '2024-01-01', '2025-01-01', 1),
+(2, 2, 'courseName2', '2024-01-02', '2025-01-02', 2),
+(3, 3, 'courseName3', '2024-01-03', '2025-01-03', 3),
+(4, 4, 'courseName4', '2024-01-04', '2025-01-04', 4),
+(5, 5, 'courseName5', '2024-01-05', '2025-01-05', 1);
+
+INSERT INTO status_of_students_courses VALUES
+(1, '仮申込'),
+(2, '本申込'),
+(3, '受講中'),
+(4, '受講終了');

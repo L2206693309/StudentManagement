@@ -59,6 +59,21 @@ class StudentRepositoryTest {
   }
 
   @Test
+  void ステータステーブルの単一検索が行えること(){
+    String actual = sut.searchStatusOfStudentsCourses(1);
+    Assertions.assertThat(actual).isEqualTo("仮申込");
+  }
+
+  @Test
+  void 受講生の条件付き検索が行えること(){
+    Students targerStudents = new Students();
+    targerStudents.setName("name3");
+
+    List<Students> actual = sut.searchTargetStudents(targerStudents);
+    Assertions.assertThat(actual.getFirst().getId()).isEqualTo(3);
+  }
+
+  @Test
   void 受講生の登録が行えること(){
     Students student = new Students();
     student.setId(6);
@@ -87,6 +102,7 @@ class StudentRepositoryTest {
     studentCourse.setStartDate(LocalDate.now());
     studentCourse.setEndDate(LocalDate.now().plusYears(1));
     studentCourse.setSId(99822);
+    studentCourse.setStatusId(2);
 
     sut.registerStudentCourse(studentCourse);
 
@@ -124,6 +140,7 @@ class StudentRepositoryTest {
     studentCourse.setStartDate(LocalDate.now());
     studentCourse.setEndDate(LocalDate.now().plusYears(1));
     studentCourse.setSId(99822);
+    studentCourse.setStatusId(2);
 
     sut.updateStudentCourse(studentCourse);
 

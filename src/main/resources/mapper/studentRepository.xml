@@ -22,7 +22,10 @@
   </select>
 
   <select id="searchStudentCourse" resultType="raisetech.StudentManagement.data.StudentCourses">
-    select * from students_courses where s_id = #{sId}
+    select * from students_courses where s_id in
+    <foreach item="sId" collection="list" open="(" separator="," close=")">
+      #{sId}
+    </foreach>
   </select>
 
   <select id="searchStudentsMaxId" resultType="Integer">
@@ -34,13 +37,21 @@
     select max(id) from students_courses
   </select>
 
+  <select id="searchStatusOfStudentsCourses" resultType="String">
+    select status from status_of_students_courses where id = #{id}
+  </select>
+
+  <select id="searchTargetStudents" resultType="raisetech.StudentManagement.data.Students">
+    select * from students where id like concat ('%', #{id}, '%') and name like concat ('%', #{name}, '%') and furigana like concat ('%', #{furigana}, '%') and nickname like concat ('%', #{nickname}, '%') and mail_address like concat ('%', #{mailAddress}, '%') and living_area like concat ('%', #{livingArea}, '%') and age like concat ('%', #{age}, '%') and gender like concat ('%', #{gender}, '%') and remark like concat ('%', #{remark}, '%') and is_deleted like concat ('%', #{isDeleted}, '%')
+  </select>
+
   <insert id="registerStudent">
     insert into students values(#{id}, #{name}, #{furigana}, #{nickname}, #{mailAddress},
     #{livingArea}, #{age}, #{gender}, #{remark}, false)
   </insert>
 
   <insert id="registerStudentCourse">
-    insert into students_courses values(#{id}, #{sId}, #{courseName}, #{startDate}, #{endDate})
+    insert into students_courses values(#{id}, #{sId}, #{courseName}, #{startDate}, #{endDate}, #{statusId})
   </insert>
 
   <update id="updateStudent">
@@ -50,6 +61,6 @@
   </update>
 
   <update id="updateStudentCourse">
-    update students_courses set course_name=#{courseName} where id=#{id}
+    update students_courses set course_name=#{courseName}, status_id=#{statusId} where id=#{id}
   </update>
 </mapper>
