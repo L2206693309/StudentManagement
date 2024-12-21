@@ -22,11 +22,16 @@
   </select>
 
   <select id="searchStudentCourse" resultType="raisetech.StudentManagement.data.StudentCourses">
+    select * from students_courses where s_id = #{sId}
+  </select>
+
+  <select id="searchStudentCourses" resultType="raisetech.StudentManagement.data.StudentCourses">
     select * from students_courses where s_id in
     <foreach item="sId" collection="list" open="(" separator="," close=")">
       #{sId}
     </foreach>
   </select>
+
 
   <select id="searchStudentsMaxId" resultType="Integer">
     select max(id) from students
