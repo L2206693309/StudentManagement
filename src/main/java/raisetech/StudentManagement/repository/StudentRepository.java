@@ -1,7 +1,5 @@
 package raisetech.StudentManagement.repository;
 
-import io.swagger.v3.oas.models.security.SecurityScheme.In;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
@@ -48,7 +46,7 @@ public interface StudentRepository {
 
   List<StudentCourses> searchStudentCourse(Integer id);
 
-  List<StudentCourses> searchStudentCourse(ArrayList<Integer> id);
+  List<StudentCourses> searchStudentCourses(ArrayList<Integer> id);
 
   /**
    * idの最大値を検索します。

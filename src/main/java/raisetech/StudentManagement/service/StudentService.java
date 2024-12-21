@@ -108,7 +108,7 @@ public class StudentService {
         sId.add(s.getId());
       }
 
-      List<StudentCourses> studentCourses = repository.searchStudentCourse(sId);
+      List<StudentCourses> studentCourses = repository.searchStudentCourses(sId);
 
       //studentsCourses内の各レコードのstatusを設定
       for (StudentCourses sc : studentCourses){
