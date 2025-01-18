@@ -78,7 +78,9 @@ jobs:
           
           sudo systemctl daemon-reload
           if sudo systemctl status StudentManagement 2>&1 | grep "Active: active (running)" ; then
+            sudo systemctl unmask StudentManagement.service
             sudo systemctl restart StudentManagement
           else
+            sudo systemctl unmask StudentManagement.service
             sudo systemctl start StudentManagement
           fi
