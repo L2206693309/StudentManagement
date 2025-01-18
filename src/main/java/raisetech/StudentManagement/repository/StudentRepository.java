@@ -46,7 +46,7 @@ public interface StudentRepository {
 
   List<StudentCourses> searchStudentCourse(Integer id);
 
-  List<StudentCourses> searchStudentCourses(ArrayList<Integer> id);
+  List<StudentCourses> searchStudentCourses(ArrayList<Integer> sId);
 
   /**
    * idの最大値を検索します。
