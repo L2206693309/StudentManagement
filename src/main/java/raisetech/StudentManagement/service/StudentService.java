@@ -101,6 +101,7 @@ public class StudentService {
   public List<StudentDetail> searchStudents(Students targetStudents) {
     try {
       List<Students> students = repository.searchTargetStudents(targetStudents);
+      System.out.println(students);
       ArrayList<Integer> sId = new ArrayList<>();
 
       //students内の各レコードのidを取得
