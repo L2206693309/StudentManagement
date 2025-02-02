@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,15 +69,30 @@ class StudentServiceTest {
 
   @Test
   void 受講生の条件付き一覧検索_リポジトリの処理が適切に呼び出せていること(){
-    Students student = new Students();
-    student.setName("name3");
+    Students targetStudent = new Students();
+    targetStudent.setName("name3");
+    
+    Students returnStudent = new Students();
+    returnStudent.setId(3);
+    returnStudent.setName("name3");
+    returnStudent.setFurigana("furigana3");
+    returnStudent.setNickname("nickname3");
+    returnStudent.setMailAddress("mailAddress3");
+    returnStudent.setGender("gender3");
+    returnStudent.setLivingArea("livingArea3");
+    returnStudent.setRemark("remark3");
+    returnStudent.setIsDeleted(false);
+    
     List<Students> returnStudents = new ArrayList<>();
-    returnStudents.add(student);
-    when(repository.searchTargetStudents(student)).thenReturn(returnStudents);
+    returnStudents.add(returnStudent);
+    String[] SQLGrammar = new String[10];
+    SQLGrammar[1] = "name3";
 
-    List<StudentDetail> actual = sut.searchStudents(student);
+    when(repository.searchTargetStudents(SQLGrammar)).thenReturn(returnStudents);
 
-    verify(repository, times(1)).searchTargetStudents(student);
+    List<StudentDetail> actual = sut.searchStudents(targetStudent);
+
+    verify(repository, times(1)).searchTargetStudents(SQLGrammar);
   }
 
   @Test

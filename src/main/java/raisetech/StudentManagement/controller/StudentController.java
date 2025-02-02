@@ -82,7 +82,9 @@ public class StudentController {
 
   @Operation(summary = "一覧検索(条件付き)", description = "指定された条件を満たす受講生詳細の一覧を検索します。")
   @GetMapping("/searchStudents")
-  public List<StudentDetail> searchStudents(Integer id,String name,String furigana,String nickname,String mailAddress,String livingArea,Integer age,String gender,String remark,Integer isDeleted){
+  public List<StudentDetail> searchStudents(Integer id, String name,
+      String furigana, String nickname, String mailAddress,
+      String livingArea,Integer age, String gender, String remark,Integer isDeleted){
     Students targetStudents = new Students();
 
     //空文字対策

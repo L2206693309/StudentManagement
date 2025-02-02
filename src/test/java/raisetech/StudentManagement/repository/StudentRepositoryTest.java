@@ -66,10 +66,10 @@ class StudentRepositoryTest {
 
   @Test
   void 受講生の条件付き検索が行えること(){
-    Students targerStudents = new Students();
-    targerStudents.setName("name3");
+    String[] targetStudents = new String[10];
+    targetStudents[1] = "name3";
 
-    List<Students> actual = sut.searchTargetStudents(targerStudents);
+    List<Students> actual = sut.searchTargetStudents(targetStudents);
     Assertions.assertThat(actual.getFirst().getId()).isEqualTo(3);
   }
 

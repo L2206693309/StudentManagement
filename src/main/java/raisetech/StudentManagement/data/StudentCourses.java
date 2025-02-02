@@ -14,10 +14,11 @@ import lombok.Setter;
 @Valid
 
 public class StudentCourses {
+
   private Integer id;
 
   private Integer sId;
-  
+
   @Max(50)
   @NotNull
   private String courseName;

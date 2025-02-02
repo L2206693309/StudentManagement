@@ -100,7 +100,31 @@ public class StudentService {
    */
   public List<StudentDetail> searchStudents(Students targetStudents) {
     try {
-      List<Students> students = repository.searchTargetStudents(targetStudents);
+      String[] SQLGrammar = new String[10];
+
+      if (targetStudents.getId().equals(null)) {
+        SQLGrammar[0] = "id like ('%%') and ";
+      } else {
+        SQLGrammar[0] = "id = " + targetStudents.getId() + " and ";
+      }
+
+      SQLGrammar[1] = "name like ('%" + targetStudents.getName() + "%') and ";
+      SQLGrammar[2] = "furigana like ('%" + targetStudents.getFurigana() + "%') and ";
+      SQLGrammar[3] = "nickname like ('%" + targetStudents.getNickname() + "%') and ";
+      SQLGrammar[4] = "mail_address like ('%" + targetStudents.getMailAddress() + "%') and ";
+      SQLGrammar[5] = "living_area like ('%" + targetStudents.getLivingArea() + "%') and ";
+
+      if (targetStudents.getId().equals(null)) {
+        SQLGrammar[6] = "age like ('%%') and ";
+      } else {
+        SQLGrammar[6] = "age = " + targetStudents.getAge().toString() + " and ";
+      }
+
+      SQLGrammar[7] = "gender like ('%" + targetStudents.getGender() + "%') and ";
+      SQLGrammar[8] = "remark like ('%" + targetStudents.getRemark() + "%') and ";
+      SQLGrammar[9] = "is_deleted like ('%" + targetStudents.getIsDeleted() + "%')";
+
+      List<Students> students = repository.searchTargetStudents(SQLGrammar);
       System.out.println(students);
       ArrayList<Integer> sId = new ArrayList<>();
 
@@ -112,7 +136,7 @@ public class StudentService {
       List<StudentCourses> studentCourses = repository.searchStudentCourses(sId);
 
       //studentsCourses内の各レコードのstatusを設定
-      for (StudentCourses sc : studentCourses){
+      for (StudentCourses sc : studentCourses) {
         sc.setStatus(repository.searchStatusOfStudentsCourses(sc.getStatusId()));
       }
 

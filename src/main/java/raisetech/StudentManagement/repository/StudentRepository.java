@@ -76,10 +76,10 @@ public interface StudentRepository {
   /**
    * 引数に指定された値を満たすレコードを取得します。
    *
-   * @param targetStudents 検索条件
+   * @param SQLGrammar 検索条件
    * @return 検索条件を満たす受講生
    */
-  List<Students> searchTargetStudents(Students targetStudents);
+  List<Students> searchTargetStudents(String[] SQLGrammar);
 
   /**
    * 受講生を新規登録します。 IDに関しては自動採番を行う。
